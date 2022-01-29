@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-
+require 'pry-byebug'
 # Contains value & children
 class Node
   include Comparable
@@ -25,18 +25,17 @@ class Moveset
     @root = Node.new(origin)
   end
 
-  def build_tree(position = @root)
-    return position unless position.exists?
-
+  def build_tree(position = @root, previous = nil)
     MOVES.each do |move|
-      destination = [position[0] + move[0], position[1] + move[1]]
+      destination = [position.data[0] + move[0], position.data[1] + move[1]]
       next unless valid_move?(destination)
+      next if destination == previous
 
       node = find(destination)
       if node.nil?
         node = Node.new(destination)
         position.links << node
-        build_tree(node)
+        build_tree(node, position.data)
       else
         position.links << node
       end
@@ -51,11 +50,15 @@ class Moveset
 
   def find(dest)
     queue = [@root]
+    queued_before = []
     until queue.length.zero?
       current = queue.shift
-      queue << current.links unless current.links.nil?
+      current.links.each do |link|
+        queue << link unless queued_before.include?(link)
+        queued_before << link
+      end
       queue.flatten!
-      return current if current == dest
+      return current if current.data == dest
     end
     nil
   end
