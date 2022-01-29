@@ -49,7 +49,15 @@ class Moveset
     true
   end
 
-  def find(data)
+  def find(dest)
+    queue = [@root]
+    until queue.length.zero?
+      current = queue.shift
+      queue << current.links unless current.links.nil?
+      queue.flatten!
+      return current if current == dest
+    end
+    nil
   end
 end
 
