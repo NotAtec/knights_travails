@@ -15,15 +15,21 @@ end
 
 # Contains all info and methods regarding the management of the board, and the routing on it
 class Board
-  def initialize(origin, destination); end
+  def initialize; end
 
   def knight_moves(origin, destination)
     dest = make_tree(destination, Knight.new(origin))
     history = build_history(dest, origin)
-    
+    show_path(history.reverse)
   end
 
   private
+
+  def show_path(path)
+    puts "The knight went from #{path[0].location} to #{path[-1].location} in #{path.length - 1} moves"
+    puts "This is your path:"
+    path.each { |x| p x.location }
+  end
 
   def make_tree(dest, depa = @origin)
     queue = [Knight.new(depa.location)]
@@ -58,4 +64,3 @@ class Board
     history
   end
 end
-
