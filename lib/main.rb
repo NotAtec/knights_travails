@@ -15,12 +15,13 @@ end
 
 # Contains all info and methods regarding the management of the board, and the routing on it
 class Board
-  def initialize(origin, destination)
-    @origin = Knight.new(origin)
-    make_tree(destination)
-  end
+  def initialize(origin, destination); end
 
-  def find; end
+  def knight_moves(origin, destination)
+    dest = make_tree(destination, Knight.new(origin))
+    history = build_history(dest, origin)
+    
+  end
 
   private
 
@@ -36,6 +37,7 @@ class Board
       end
       current = queue.shift
     end
+    current
   end
 
   def find_moves(location, res = [])
@@ -46,9 +48,14 @@ class Board
     end
     res
   end
+
+  def build_history(current, depa, history = [])
+    until current.location == depa
+      history << current
+      current = current.parent
+    end
+    history << current
+    history
+  end
 end
 
-def knight_moves(origin, destination)
-  move_set = Board.new(origin, destination)
-  move_set.find(destination)
-end
