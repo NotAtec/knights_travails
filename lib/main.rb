@@ -1,6 +1,5 @@
 # frozen_string_literal: true
-require 'pry-byebug'
-require 'benchmark'
+
 # Contains value & children
 class Knight
   attr_reader :location, :parent
@@ -27,7 +26,7 @@ class Board
 
   def show_path(path)
     puts "The knight went from #{path[0].location} to #{path[-1].location} in #{path.length - 1} moves"
-    puts "This is your path:"
+    puts 'This is your path:'
     path.each { |x| p x.location }
   end
 
