@@ -12,8 +12,12 @@ class Knight
 end
 
 class Board
+  def initialize(origin, destination)
+    @origin = Knight.new(origin)
+    @tree = make_tree(destination)
+  end
 
-  def self.make_tree(depa, dest)
+  def make_tree(dest, depa = @origin)
     queue = depa
     current = queue.shift
     until current.location == dest
@@ -35,6 +39,5 @@ class Board
 end
 
 def knight_moves(origin, destination)
-  origin = Knight.new(origin)
-  tree = Board.make_tree(origin, destination)
+  move_set = Board.new(origin, destination)
 end
