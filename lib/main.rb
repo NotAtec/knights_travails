@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 # Contains value & children
 class Node
   include Comparable
   attr_accessor :data, :links
 
-  def initialize(d)
-    @data = d
+  def initialize(data)
+    @data = data
     @links = []
   end
 
@@ -17,7 +19,15 @@ end
 class Moveset
   attr_accessor :root
 
-  def initialize(d)
-    @root = Node.new(d)
+  MOVES = [[2, 1], [1, 2], [2, -1], [1, -2], [-2, 1], [-1, 2], [-2, -1], [-1, -2]].freeze
+
+  def initialize(origin)
+    @root = Node.new(origin)
   end
+
+  def build_tree
+  end
+end
+
+def knight_moves(origin, destination)
 end
