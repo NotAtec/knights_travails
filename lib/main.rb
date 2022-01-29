@@ -30,17 +30,16 @@ class Moveset
 
     MOVES.each do |move|
       destination = [position[0] + move[0], position[1] + move[1]]
-      if valid_move?(destination)
+      next unless valid_move?(destination)
 
+      node = find(destination)
+      if node.nil?
+        node = Node.new(destination)
+        position.links << node
+        build_tree(node)
+      else
+        position.links << node
       end
-      # Check if move is valid
-      # Find node with new position after move
-      # If found: 
-      # Link found node to position
-      # If not found:
-      # Create new node
-      # Link new node to position
-      # Run tree method again for new node
     end
   end
 
@@ -48,6 +47,9 @@ class Moveset
     return false if destination[0].negative? || destination[0] > 7 || destination[1].negative? || destination[1] > 7
 
     true
+  end
+
+  def find(data)
   end
 end
 
