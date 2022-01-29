@@ -2,7 +2,8 @@
 require 'pry-byebug'
 # Contains value & children
 class Knight
-  attr_accessor :data, :links
+  attr_reader :location, :parent
+  attr_accessor :children
 
   def initialize(data, parent = nil)
     @location = data
@@ -18,13 +19,20 @@ class Board
   end
 
   def make_tree(dest, depa = @origin)
-    queue = depa
+    queue = [depa]
     current = queue.shift
+    history = []
     until current.location == dest
+      history << current.location
       moves = find_moves(current.location)
       moves.each do |move|
-        # DO STUFF FOR EACH VALID MOVE
+        node = Knight.new(move)
+        unless history.include?(node.location)
+          queue << node
+          current.children << node
+        end
       end
+      current = queue.shift
     end
   end
 
