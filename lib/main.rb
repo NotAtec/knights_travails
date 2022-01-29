@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require 'pry-byebug'
+require 'benchmark'
 # Contains value & children
 class Knight
   attr_reader :location, :parent
@@ -12,25 +13,26 @@ class Knight
   end
 end
 
+# Contains all info and methods regarding the management of the board, and the routing on it
 class Board
   def initialize(origin, destination)
     @origin = Knight.new(origin)
-    @tree = make_tree(destination)
+    make_tree(destination)
   end
 
+  def find; end
+
+  private
+
   def make_tree(dest, depa = @origin)
-    queue = [depa]
+    queue = [Knight.new(depa.location)]
     current = queue.shift
-    history = []
     until current.location == dest
-      history << current.location
       moves = find_moves(current.location)
       moves.each do |move|
-        node = Knight.new(move)
-        unless history.include?(node.location)
-          queue << node
-          current.children << node
-        end
+        node = Knight.new(move, current)
+        queue << node
+        current.children << node
       end
       current = queue.shift
     end
@@ -48,4 +50,5 @@ end
 
 def knight_moves(origin, destination)
   move_set = Board.new(origin, destination)
+  move_set.find(destination)
 end
