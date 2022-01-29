@@ -4,10 +4,24 @@ require 'pry-byebug'
 class Knight
   attr_accessor :data, :links
 
-  def initialize(data)
+  def initialize(data, parent = nil)
     @location = data
-    @moves = find_moves(data)
     @children = []
+    @parent = parent
+  end
+end
+
+class Board
+
+  def self.make_tree(depa, dest)
+    queue = depa
+    current = queue.shift
+    until current.location == dest
+      moves = find_moves(current.location)
+      moves.each do |move|
+        # DO STUFF FOR EACH VALID MOVE
+      end
+    end
   end
 
   def find_moves(location, res = [])
@@ -20,13 +34,7 @@ class Knight
   end
 end
 
-# Is a graph, containing the initial location of the piece when initialized. Has methods to create links for all possible moves
-class Moveset
-  attr_accessor :root
-  
-  def initialize(origin)
-    @root = Node.new(origin)
-  end
+def knight_moves(origin, destination)
+  origin = Knight.new(origin)
+  tree = Board.make_tree(origin, destination)
 end
-
-def knight_moves(origin, destination); end
